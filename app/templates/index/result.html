@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Solution - Product Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Skin Solution</h1>
+        <div class="icons">
+            <img src="{{ url_for('static', filename='tubes.png') }}">
+        </div>
+    </div>
+    <div class="container">
+        <h2>Hasil Rekomendasi Produk</h2>
+        {% for product in products %}
+            <div class="product">
+                <img src="{{ product.image }}" alt="{{ product.name }}">
+                <div class="product-details">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p><strong>Skor:</strong> {{ product.score }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
