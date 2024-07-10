@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skin Solution - Product Recommendations</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+    <style>
+        .modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
 </head>
 <body>
     <div class="header">
@@ -20,12 +33,84 @@
                 <img src="{{ product.image }}" alt="{{ product.name }}">
                 <div class="product-details">
                     <h3>{{ product.name }}</h3>
-                    <p>{{ product.description }}</p>
-                    <p><strong>Skor:</strong> {{ product.score }}</p>
+                    <p class="more">{{ product.description }}</p>
+                    <div>
+                        <div>
+                            <p style="margin-top: 2em;"><strong>Skor:</strong> {{ product.score }}</p>
+                            <p><strong>Harga:</strong> {{ "Rp{:,.2f}".format(product.price) }}</p>
+                        </div>
+                        <button onclick="showReviews('{{ product.id }}')">Lihat Review</button>
+                    </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+    <script>
+        const lowerBound = 250;
+        const upperBound = lowerBound + 100;
+        document.querySelectorAll('.more').forEach((el) => {
+            const text = el.innerText;
+            if (text.length > upperBound) {
+                // truncate text after 100 characters but before the next space
+                const fullText = text;
+                const truncated = text.substring(0, lowerBound) + text.substring(lowerBound, text.indexOf(' ', lowerBound)) + '...';
+                el.innerText = truncated;
+                el.setAttribute('data-toggle', fullText);
+                el.insertAdjacentHTML('beforeend', '<span class="read-more">Read more</span>');
+            }
+        });
+        document.querySelectorAll('.read-more').forEach((el) => {
+            el.style.cursor = 'pointer';
+            el.style.color = 'blue';
+            el.style.textDecoration = 'underline';
+            el.addEventListener('click', (e) => {
+                const text = e.target.parentElement;
+                const toggleText = text.getAttribute('data-toggle');
+                if (e.target.innerText === 'Read more') {
+                    e.target.innerText = 'Read less';
+                } else {
+                    e.target.innerText = 'Read more';
+                }
+                text.setAttribute('data-toggle', text.firstChild.nodeValue);
+                text.firstChild.nodeValue = toggleText;
+            });
+        });
+
+        function showReviews(productId) {
+            const skin_type = '{{ skin_type }}';
+            const age_range = '{{ age_range }}';
+
+            const url = `/reviews?product_id=${productId}&skin_type=${skin_type}&age_range=${age_range}`;
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                    const reviewList = data.map((review) => {
+                        return `<li>${review.text}</li>`;
+                    }).join('');
+                    const modal = `
+                        <div class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal()">&times;</span>
+                                <h2>Review Produk</h2>
+                                <ul>${reviewList}</ul>
+                            </div>
+                        </div>
+                    `;
+                    document.body.insertAdjacentHTML('beforeend', modal);
+                });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        function closeModal() {
+            const modal = document.querySelector('.modal');
+            modal.remove();
+        }
+    </script>
 </body>
 </html>
 

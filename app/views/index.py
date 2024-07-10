@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, jsonify
 from sqlalchemy import func
 from app.models.skincare import Product, Review
 from app.core import db
@@ -38,7 +38,16 @@ def recommendations():
         product.score = 0.7 * recommendations[product.id] + 0.3 * review_count / max_review_count * 5
         products.append(product)
     products.sort(key=lambda x: x.score, reverse=True)
-    return render_template('index/result.html', products=products if len(products) < 10 else products[:10])
+    return render_template('index/result.html', products=products if len(products) < 10 else products[:10], age_range=age_range, skin_type=skin_type)
+
+@index.route('/reviews')
+def reviews():
+    age_range = request.args.get('age_range')
+    skin_type = request.args.get('skin_type')
+    product_id = request.args.get('product_id')
+    reviews = Review.query.filter_by(product_id=product_id, age_range=age_range, skin_type=skin_type).all()
+    return jsonify(reviews)
+
 
 def _encode_data(ids, age_range, skin_type):
     data = [{
@@ -75,8 +84,8 @@ def _predict_text_ratings(ratings, tag):
 def _predict_recommendation(ratings, text_ratings, tag):
     model = _load_model(tag, 'svm')
     df = pd.DataFrame({
-        'ratings': ratings,
-        'text_ratings': text_ratings
+        'rating': ratings,
+        'rating_text': text_ratings
     })
     return model.predict(df)
 

@@ -4,7 +4,7 @@ from sqlalchemy import event
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] =  os.environ.get('SQLALCHEMY_DATABASE_URI', 'mysql://root@localhost:3306/fd_reviews')
+app.config['SQLALCHEMY_DATABASE_URI'] =  os.environ.get('SQLALCHEMY_DATABASE_URI', 'mysql+pymysql://root@localhost:3306/fd_reviews')
 db = SQLAlchemy(app)
 
 def set_sql_mode(dbapi_connection, connection_record):

@@ -53,9 +53,9 @@ body {
 }
 
 .product img {
-    width: 100px;
-    height: 150px;
+    width: 200px;
     margin-right: 20px;
+    border-radius: 15px;
 }
 
 .product-details {
@@ -69,6 +69,7 @@ body {
 
 .product-details p {
     text-align: justify;
+    line-height: 120%;
     margin: 10px 0 0 0;
     color: #555;
 }
