@@ -73,3 +73,7 @@ body {
     margin: 10px 0 0 0;
     color: #555;
 }
+
+.fa-star, .fa-star-half-o, .fa-star-o {
+    color: #ff87b5;
+}
