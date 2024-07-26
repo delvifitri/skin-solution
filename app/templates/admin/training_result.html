@@ -1,0 +1,57 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+
+{% if message %}
+{{ message }}
+{% endif %}
+
+<h2>Memuat data</h2>
+<div class="overflow-auto">
+    {{ result.raw_data|safe }}
+</div>
+
+<h2>Preprocessing</h2>
+<div class="overflow-auto">
+    {{ result.cleaned_data|safe }}
+</div>
+
+<h2>Lexicon-based Sentiment Analysis</h2>
+<div class="overflow-auto">
+    {{ result.processed_data|safe }}
+</div>
+
+<h2>Training Model</h2>
+<h3>Data Train Decision Tree Regression 1</h3>
+<div class="overflow-auto">
+    {{ result.dtr1_train|safe }}
+</div>
+
+<h3>Data Test Decision Tree Regression 1</h3>
+<div class="overflow-auto">
+    {{ result.dtr1_test|safe }}
+</div>
+
+<h3>Data Train Decision Tree Regression 2</h3>
+<div class="overflow-auto">
+    {{ result.dtr2_train|safe }}
+</div>
+
+<h3>Data Test Decision Tree Regression 2</h3>
+<div class="overflow-auto">
+    {{ result.dtr2_test|safe }}
+</div>
+
+<h3>Data Train SVM</h3>
+<div class="overflow-auto">
+    {{ result.svm_train|safe }}
+</div>
+
+<h3>Data Test SVM</h3>
+<div class="overflow-auto">
+    {{ result.svm_test|safe }}
+</div>
+
+<img src="data:image/png;base64,{{ result.confusion_matrix }}" alt="">
+
+{% endblock %}
