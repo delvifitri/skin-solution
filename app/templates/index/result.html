@@ -64,6 +64,8 @@
             background-color: rgba(0, 0, 0, 0.5);
         }
         .modal-content {
+            display: flex;
+            flex-direction: column;
             background-color: white;
             padding: 1em;
             border-radius: 5px;
@@ -76,7 +78,8 @@
             color: red;
             font-size: 1.5em;
             cursor: pointer;
-            float: right;
+            position: fixed;
+            align-self: flex-end;
         }
         ul.pagination {
             display: flex;
@@ -110,7 +113,7 @@
         </div>
     </div>
     <div class="container">
-        <div style="display: flex; justify-content: space-between;">
+        <div class="result-header">
             <h2>Hasil Rekomendasi Produk</h2> <div style="align-content: center;"><button onclick="showProcess()">Lihat Proses</button></div>
         </div>
         {% for product in products %}
@@ -119,7 +122,7 @@
                 <div class="product-details" style=" width: 100%;">
                     <h3>{{ product.name }}</h3>
                     <p class="more">{{ product.description }}</p>
-                    <div style="display: flex; justify-content: space-between; margin-top: 2em;">
+                    <div class="misc">
                         <div>
                             <p><strong>Skor:</strong> {{ product.score }}</p>
                             <p><strong>Harga:</strong> {{ "Rp{:,.2f}".format(product.price) }}</p>
