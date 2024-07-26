@@ -3,6 +3,7 @@
 * {
     font-family: 'Poppins', sans-serif;
 }
+
 body {
     background-color: #ffe4f4;
     margin: 0;
@@ -74,6 +75,39 @@ body {
     color: #555;
 }
 
-.fa-star, .fa-star-half-o, .fa-star-o {
+.fa-star,
+.fa-star-half-o,
+.fa-star-o {
     color: #ff87b5;
+}
+
+.misc {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2em;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+    .product {
+        flex-wrap: wrap;
+    }
+
+    .product img {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .misc {
+        flex-direction: column-reverse
+    }
+
+    .result-header {
+        flex-direction: column;
+    }
 }
