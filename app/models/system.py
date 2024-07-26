@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from sqlalchemy import func
 from app.core import db
 from dataclasses import dataclass

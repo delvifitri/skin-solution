@@ -1,5 +1,5 @@
 import hashlib
-from flask import Blueprint, redirect, render_template, request, jsonify, session
+from flask import Blueprint, redirect, render_template, request, session
 from functools import wraps
 import pandas as pd
 import numpy as np
@@ -13,7 +13,6 @@ from app.core import db
 from app.models.system import Setting, TrainingResult
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import seaborn as sns
 import base64
 import joblib
 from io import BytesIO

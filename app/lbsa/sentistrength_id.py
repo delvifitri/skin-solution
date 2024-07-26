@@ -3,10 +3,7 @@
 
 import os
 import re
-import io
 from collections import defaultdict
-import numpy as np
-from memory_profiler import profile
 
 class SentiStrengthID:
     list_negasi = []
@@ -96,7 +93,7 @@ class SentiStrengthID:
     
     def _preprocess_symbols(self, text):
         emoticons_found = self.re_keep_emoticons.findall(text)
-        
+
         for i, emoticon in enumerate(emoticons_found):
             text.replace(emoticon, f'EMOTICON#{i}#')
             
