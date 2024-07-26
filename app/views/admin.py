@@ -245,7 +245,7 @@ def training():
         precision=precision,
         recall=recall,
         f1_score=fscore,
-        confusion_matrix=base64.encodestring(cm_plot.getvalue()).decode('utf-8'),
+        confusion_matrix=base64.encodebytes(cm_plot.getvalue()).decode('utf-8'),
         active=False
     )
     db.session.add(result)
