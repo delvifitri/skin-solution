@@ -76,8 +76,8 @@
           action="/admin/training"
           enctype="multipart/form-data"
         >
-          <input type="file" name="dataset" id="dataset" />
-          <select id="tag" name="tag">
+          <input type="file" name="dataset" id="dataset" required/>
+          <select id="tag" name="tag" required>
             <option value="facial-wash">Facial Wash</option>
             <option value="toner">Toner</option>
             <option value="serum-essence">Serum</option>
@@ -87,14 +87,15 @@
           </select>
         </form>
         <footer>
-          <button
-            class="secondary"
-            type="button"
-            onclick="document.querySelector('#train-dialog').close()"
-          >
-            Cancel
-          </button>
-          <button type="submit" form="train">Train</button>
+          <div class="grid">
+            <button
+              type="reset"
+              onclick="document.querySelector('#train-dialog').close()"
+            >
+              Batal
+            </button>
+            <button type="submit" form="train" style="width: initial;">Latih</button>
+          </div>
         </footer>
       </article>
     </dialog>

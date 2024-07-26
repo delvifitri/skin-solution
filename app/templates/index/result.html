@@ -7,6 +7,51 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+        /* HTML: <div class="loader"></div> */
+        .loader-overlay {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        }
+        .loader {
+        width: 50px;
+        aspect-ratio: 1;
+        display:grid;
+        mask: conic-gradient(from 15deg,#0000,#000);
+        -webkit-mask: conic-gradient(from 15deg,#0000,#000);
+        animation: l26 1s infinite steps(12);
+        -webkit-animation: l26 1s infinite steps(12);
+        -moz-animation: l26 1s infinite steps(12);
+        }
+        .loader,
+        .loader:before,
+        .loader:after{
+        background:
+            radial-gradient(closest-side at 50% 12.5%,
+            #f03355 96%,#0000) 50% 0/20% 80% repeat-y,
+            radial-gradient(closest-side at 12.5% 50%,
+            #f03355 96%,#0000) 0 50%/80% 20% repeat-x;
+        }
+        .loader:before,
+        .loader:after {
+        content: "";
+        grid-area: 1/1;
+        transform: rotate(30deg);
+        }
+        .loader:after {
+        transform: rotate(60deg);
+        }
+
+        @keyframes l26 {
+        100% {transform:rotate(1turn)}
+        }
         .modal {
             display: flex;
             justify-content: center;
@@ -45,6 +90,14 @@
         li.page-item.active {
             font-weight: bold;
         }
+        button {
+            cursor: pointer;
+            padding: 0.5em 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: palevioletred; 
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -57,7 +110,9 @@
         </div>
     </div>
     <div class="container">
-        <h2>Hasil Rekomendasi Produk</h2> <button onclick="showProcess()">Lihat Proses</button>
+        <div style="display: flex; justify-content: space-between;">
+            <h2>Hasil Rekomendasi Produk</h2> <div style="align-content: center;"><button onclick="showProcess()">Lihat Proses</button></div>
+        </div>
         {% for product in products %}
             <div class="product">
                 <img src="{{ product.image }}" alt="{{ product.name }}">
@@ -121,10 +176,20 @@
             const age_range = '{{ age_range }}';
             const tag = '{{ tag }}';
 
+            // add loader
+            const loader = `
+                <div class="loader-overlay">
+                    <div class="loader"></div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', loader);
+
             const url = `/process?skin_type=${skin_type}&age_range=${age_range}&tag=${tag}`;
             fetch(url)
                 .then((response) => response.text())
                 .then((data) => {
+                    // remove loader
+                    document.querySelector('.loader-overlay').remove();
                     const modal = `
                         <div class="modal">
                             <div class="modal-content">
