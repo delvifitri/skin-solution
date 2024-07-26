@@ -4,6 +4,7 @@ from sqlalchemy import event
 import os
 
 app = Flask(__name__)
+app.secret_key = 'whatever'
 app.config['SQLALCHEMY_DATABASE_URI'] =  os.environ.get('SQLALCHEMY_DATABASE_URI', 'mysql+pymysql://root@localhost:3306/fd_reviews')
 db = SQLAlchemy(app)
 
@@ -17,5 +18,7 @@ with app.app_context():
     event.listen(engine, 'connect', set_sql_mode)
 
 from app.views.index import index
+from app.views.admin import admin
 
 app.register_blueprint(index, url_prefix='/')
+app.register_blueprint(admin, url_prefix='/admin')

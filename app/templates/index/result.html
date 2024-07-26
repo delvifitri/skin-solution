@@ -49,13 +49,15 @@
 </head>
 <body>
     <div class="header">
+        <a href="/" style="text-decoration: none; color: white;">
         <h1>Skin Solution</h1>
+        </a>
         <div class="icons">
             <img src="{{ url_for('static', filename='tubes.png') }}">
         </div>
     </div>
     <div class="container">
-        <h2>Hasil Rekomendasi Produk</h2>
+        <h2>Hasil Rekomendasi Produk</h2> <button onclick="showProcess()">Lihat Proses</button>
         {% for product in products %}
             <div class="product">
                 <img src="{{ product.image }}" alt="{{ product.name }}">
@@ -77,7 +79,10 @@
         {% endfor %}
         {{ pagination.links }}
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+    <link src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.0/css/dataTables.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.0/js/dataTables.js"></script>
     <script>
 
 
@@ -110,6 +115,38 @@
                 text.firstChild.nodeValue = toggleText;
             });
         });
+
+        function showProcess() {
+            const skin_type = '{{ skin_type }}';
+            const age_range = '{{ age_range }}';
+            const tag = '{{ tag }}';
+
+            const url = `/process?skin_type=${skin_type}&age_range=${age_range}&tag=${tag}`;
+            fetch(url)
+                .then((response) => response.text())
+                .then((data) => {
+                    const modal = `
+                        <div class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal()">&times;</span>
+                            ${data}
+                            </div>
+                        </div>
+                    `;
+
+                    if (document.querySelector('.modal')) {
+                        let modalElement = document.querySelector('.modal');
+                        modalElement.innerHTML = modal;
+                    } else {
+                        document.body.insertAdjacentHTML('beforeend', modal);
+                    }
+                })
+                .finally(() => {
+                    new DataTable('table', {
+                        scrollX: true,
+                    });
+                });
+        }
 
         function showReviews(productId, ) {
             const skin_type = '{{ skin_type }}';
