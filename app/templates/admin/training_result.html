@@ -32,6 +32,11 @@
     {{ result.dtr1_test|safe }}
 </div>
 
+<h3>Hasil Pengujian Decision Tree Regression 1</h3>
+<div class="overflow-auto">
+    {{ result.dtr1_compare|safe }}
+</div>
+
 <h3>Data Train Decision Tree Regression 2</h3>
 <div class="overflow-auto">
     {{ result.dtr2_train|safe }}
@@ -40,6 +45,11 @@
 <h3>Data Test Decision Tree Regression 2</h3>
 <div class="overflow-auto">
     {{ result.dtr2_test|safe }}
+</div>
+
+<h3>Hasil Pengujian Decision Tree Regression 2</h3>
+<div class="overflow-auto">
+    {{ result.dtr2_compare|safe }}
 </div>
 
 <h3>Data Train SVM</h3>
@@ -52,6 +62,59 @@
     {{ result.svm_test|safe }}
 </div>
 
-<img src="data:image/png;base64,{{ result.confusion_matrix }}" alt="">
+<h3>Hasil Pengujian SVM</h3>
+<div class="overflow-auto">
+    {{ result.svm_compare|safe }}
+</div>
 
-{% endblock %}
+<h3>Metrik Pengujian</h3>
+<div class="grid">
+    <div class="overflow-auto">
+        <table>
+            <thead>
+                <tr>
+                    <th>Metrik</th>
+                    <th>Nilai</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Skor R<sup>2</sup> Model 1</td>
+                    <td>{{ result.r2_1 }}</td>
+                </tr>
+                <tr>
+                    <td>Skor R<sup>2</sup> Model 2</td>
+                    <td>{{ result.r2_2 }}</td>
+                </tr>
+                <tr>
+                    <td>MAE Model 1</td>
+                    <td>{{ result.mae1 }}</td>
+                </tr>
+                <tr>
+                    <td>MAE Model 2</td>
+                    <td>{{ result.mae2 }}</td>
+                </tr>
+                <tr>
+                    <td>Akurasi SVM</td>
+                    <td>{{ result.accuracy }}</td>
+                </tr>
+                <tr>
+                    <td>Precision SVM</td>
+                    <td>{{ result.precision }}</td>
+                </tr>
+                <tr>
+                    <td>Recall SVM</td>
+                    <td>{{ result.recall }}</td>
+                </tr>
+                <tr>
+                    <td>Skor f1 SVM</td>
+                    <td>{{ result.f1_score }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <img src="data:image/png;base64,{{ result.confusion_matrix }}" alt="">
+</div>
+
+{% endblock %}
