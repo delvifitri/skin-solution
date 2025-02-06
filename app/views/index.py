@@ -68,7 +68,7 @@ def _show_process(tag, age_range, skin_type):
             Review.age_range.like(f'%{age_range}%'),
             Review.skin_type.like(f'%{skin_type}%')
         )
-        .group_by(Product.id)  
+        .group_by(Product)
         .all()
     )
 
